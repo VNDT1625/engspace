@@ -1,0 +1,191 @@
+/* ----------------- READING SELECTION MODAL ----------------- */
+
+.reading-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+.reading-modal-content {
+  background: #ffffff;
+  width: 90%;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(8, 10, 96, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+}
+
+.reading-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.reading-modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--heading-color, #223a58);
+}
+
+.reading-modal-header .close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #6c757d;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.reading-modal-header .close-btn:hover {
+  color: #dc3545;
+}
+
+.reading-modal-body {
+  padding: 30px;
+  background: #fafafc;
+}
+
+.mode-cards-container {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .mode-cards-container {
+    flex-direction: column;
+  }
+}
+
+.mode-card {
+  flex: 1;
+  background: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.mode-card:hover {
+  border-color: rgba(8, 10, 96, 0.3);
+  box-shadow: 0 8px 25px rgba(8, 10, 96, 0.08);
+}
+
+.mode-card.selected {
+  border-color: #080a60; /* Primary Site Color */
+  box-shadow: 0 8px 25px rgba(8, 10, 96, 0.15);
+  background: rgba(8, 10, 96, 0.02);
+}
+
+.mode-card.selected::after {
+  content: '\F633'; /* bi-check-circle-fill Bootstrap Icon */
+  font-family: 'bootstrap-icons';
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #080a60;
+}
+
+/* Badge specific to the Exam Mode */
+.exam-badge {
+  position: absolute;
+  top: -12px;
+  right: -10px;
+  background: #dc3545; /* Red tag for emphasis */
+  color: white;
+  padding: 5px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
+}
+
+.exam-badge::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: darken(#dc3545, 10%) transparent transparent transparent;
+}
+
+
+/* Mock UI Box */
+.mock-ui-box {
+  width: 100%;
+  height: 140px;
+  background: #f1f3f5;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.mock-ui-box i {
+  font-size: 3rem;
+  color: #adb5bd;
+}
+
+.mode-card.selected .mock-ui-box {
+  border-color: rgba(8, 10, 96, 0.2);
+  background: rgba(8, 10, 96, 0.05);
+}
+
+.mode-card.selected .mock-ui-box i {
+  color: #080a60;
+}
+
+.mode-card h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--heading-color, #223a58);
+  margin-bottom: 10px;
+}
+
+.mode-card p {
+  font-size: 0.9rem;
+  color: #6c757d;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.reading-modal-footer {
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

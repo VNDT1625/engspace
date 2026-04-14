@@ -1,0 +1,764 @@
+/* ----------------- READING EXAM APP ----------------- */
+
+.reading-app {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #fafafa;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  /* Clean font for exam */
+}
+
+/* --------------- HEADER --------------- */
+.reading-header {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #dee2e6;
+  background-color: #ffffff;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.reading-header .test-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.reading-header .test-info h1 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #343a40;
+}
+
+.reading-header .test-info span {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.25rem;
+  color: #495057;
+}
+
+/* Theme variations for Header */
+.reading-app.theme-practice .reading-header {
+  background-color: #080a60;
+  /* Site Primary Navy */
+  color: #ffffff;
+}
+
+.reading-app.theme-practice .reading-header .test-info h1,
+.reading-app.theme-practice .reading-header .test-info span {
+  color: #ffffff;
+}
+
+.reading-app.theme-practice .header-tools {
+  color: #ffffff;
+}
+
+/* --------------- TOP TOOLBAR (PRACTICE) --------------- */
+.practice-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  gap: 10px;
+}
+
+.practice-toolbar .timer-pill {
+  background: #198754;
+  color: white;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto;
+}
+
+.practice-toolbar .btn-tool {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: #ffffff;
+  padding: 5px 12px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #495057;
+  cursor: pointer;
+}
+
+/* --------------- MAIN WORKSPACE --------------- */
+.reading-workspace {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Optional Left Sidebar for Tools (Practice Mode) */
+.tool-sidebar {
+  width: 65px;
+  background: #ffffff;
+  border-right: 1px solid #dee2e6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  gap: 15px;
+}
+
+.tool-sidebar .tool-icon {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  color: #198754;
+  background: #ffffff;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.tool-sidebar .tool-icon i {
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+}
+
+.tool-sidebar .tool-icon:hover {
+  background: #f1f3f5;
+  border-color: #198754;
+}
+
+.tool-sidebar button.tool-icon {
+  appearance: none;
+}
+
+.tool-sidebar .tool-icon.active {
+  background: #198754;
+  color: #ffffff;
+  border-color: #198754;
+}
+
+
+/* Left Pane: Passage */
+.pane-left {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-right: 3px solid #dee2e6;
+  line-height: 1.8;
+  font-size: 1.05rem;
+  color: #212529;
+}
+
+/* Ensure passage text remains natively selectable */
+.passage-content,
+.passage-content * {
+  -webkit-user-select: text;
+  user-select: text;
+  cursor: text;
+}
+
+/* Right Pane: Questions */
+.pane-right {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+  background-color: #fafafa;
+}
+
+.reading-app.theme-practice .pane-right {
+  background-color: #ffffff;
+}
+
+/* --------------- QUESTION STYLING --------------- */
+
+.question-group {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.reading-app.theme-exam .question-group {
+  border-radius: 0;
+  border-left: 4px solid #adb5bd;
+}
+
+.question-group-header {
+  background: #f8f9fa;
+  padding: 12px 15px;
+  margin: -20px -20px 20px -20px;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: bold;
+}
+
+.reading-app.theme-practice .question-group-header {
+  background: rgba(8, 10, 96, 0.03);
+  /* subtle navy */
+  color: #080a60;
+}
+
+.q-instruction {
+  font-style: italic;
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.q-item {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: flex-start;
+  gap: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #e9ecef;
+}
+
+.q-number {
+  background: #f1f3f5;
+  color: #495057;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  border: 1px solid #dee2e6;
+  min-width: 35px;
+  text-align: center;
+}
+
+/* Practice mode highlight styling for numbers */
+.reading-app.theme-practice .q-number {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  border-color: #28a745;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.q-content {
+  flex: 1;
+}
+
+.q-text {
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+/* TFNG Controls */
+.tfng-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tfng-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.reading-app.theme-exam .tfng-label input[type="radio"] {
+  width: 16px;
+  height: 16px;
+}
+
+/* Selection Controls for Matching */
+.heading-select {
+  padding: 6px 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  width: 200px;
+}
+
+
+/* --------------- BOTTOM FOOTER VISUALS --------------- */
+.reading-footer {
+  height: 60px;
+  background: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.reading-app.theme-practice .reading-footer {
+  background: #fff6e5;
+  /* soft orange/yellow or neutral */
+  border-top: 3px solid #dee2e6;
+}
+
+.footer-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.part-label {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #212529;
+}
+
+.pagination-squares {
+  display: flex;
+  gap: 3px;
+}
+
+.q-square {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  font-size: 0.85rem;
+  color: #495057;
+  cursor: pointer;
+}
+
+.reading-app.theme-exam .q-square {
+  border: 1px solid #dee2e6;
+  border-radius: 2px;
+  background: #ffffff;
+}
+
+.reading-app.theme-exam .q-square.answered {
+  border-color: #212529;
+  font-weight: bold;
+}
+
+.reading-app.theme-practice .q-square {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.reading-app.theme-practice .q-square.answered {
+  background: #28a745;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #495057;
+  color: #ffffff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.btn-icon:hover {
+  background: #343a40;
+}
+
+.btn-check-submit {
+  width: 60px;
+  height: 60px;
+  background: #dee2e6;
+  border: none;
+  border-left: 1px solid #ced4da;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #343a40;
+  cursor: pointer;
+}
+
+.reading-app.theme-practice .btn-check-submit {
+  background: transparent;
+  border: none;
+  width: auto;
+  padding: 0 30px;
+}
+
+.reading-app.theme-practice .btn-check-submit .btn-practice-submit {
+  background: #e9ecef;
+  color: #495057;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.reading-app.theme-practice .btn-check-submit .btn-practice-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.overlay-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(20, 25, 38, 0.2);
+}
+
+.highlight-editor {
+  width: min(640px, 95vw);
+  padding: 18px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.panel-head h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.panel-close {
+  border: none;
+  background: transparent;
+  color: #6c757d;
+}
+
+.selected-phrase {
+  background: #fff3cd;
+  border: 1px solid #ffe69c;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.highlight-editor textarea,
+.highlight-editor input,
+.dictionary-form input {
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.translate-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.translate-row input {
+  flex: 1;
+}
+
+.dictionary-panel {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  width: 320px;
+  max-height: calc(100vh - 140px);
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.pane-notes {
+  width: 320px;
+  min-width: 300px;
+  background-color: #ffffff;
+  border-left: 2px solid #dee2e6;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pane-notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+.pane-notes-header button {
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  color: #495057;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pane-notes-header button:hover {
+  color: #212529;
+}
+
+.note-list-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  background: #fafafa;
+}
+
+.panel-subtitle {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.note-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pane-notes .note-item {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  position: relative;
+}
+
+.note-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+.note-item .phrase {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #212529;
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+.btn-delete-note {
+  background: transparent;
+  border: none;
+  color: #adb5bd;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.1rem;
+}
+
+.btn-delete-note:hover {
+  color: #dc3545;
+}
+
+.note-item textarea {
+  width: 100%;
+  border: 1px solid #e9ecef;
+  background: #fdfdfd;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 50px;
+}
+
+.note-item textarea:focus {
+  outline: none;
+  border-color: #adb5bd;
+  background: #fff;
+}
+
+.empty-note {
+  border: 1px dashed #ced4da;
+  border-radius: 8px;
+  padding: 10px;
+  color: #6c757d;
+}
+
+.saved-title {
+  margin-top: 14px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.saved-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.saved-item {
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.dictionary-form {
+  display: flex;
+  gap: 8px;
+}
+
+.dictionary-form input {
+  flex: 1;
+}
+
+.dictionary-result {
+  margin-top: 10px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background: #f8f9fa;
+  padding: 10px;
+  min-height: 72px;
+}
+
+/* Trong reading-app.css */
+.note-popup {
+  position: absolute;
+  /* Thay vì fixed */
+  z-index: 1000;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  width: 250px;
+  border: 1px solid #198754;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Container tổng chứa cả 3 cột */
+.reading-workspace-v2 {
+  display: flex;
+  /* Bật Flexbox */
+  width: 100%;
+  height: calc(100vh - 120px);
+  /* Khớp chiều cao màn hình */
+  overflow: hidden;
+  /* Chặn scroll tổng */
+  background: #fff;
+}
+
+/* Các pane phải có khả năng cuộn độc lập */
+.pane-left,
+.pane-right {
+  height: 100%;
+  overflow-y: auto;
+  /* Cho phép scroll nội bộ */
+  padding: 20px;
+  border-right: 1px solid #e0e0e0;
+  transition: flex 0.3s ease;
+  /* Hiệu ứng mượt khi note panel đóng/mở */
+}
+
+/* Tỷ lệ dãn ban đầu khi CÓ cột Note (Ví dụ: 35% - 40% - 25%) */
+.pane-left {
+  flex: 35;
+}
+
+.pane-right {
+  flex: 40;
+}
+
+/* Khi ẨN cột Note, flex-grow sẽ tự đẩy 2 cột kia to ra */
+/* Nếu showNotePanel = false, React sẽ không render aside, flex tự tính lại */
+
+/* Cột Note cố định bên phải */
+.pane-notes-central {
+  flex: 25;
+  /* Chiếm 25% chiều rộng */
+  height: 100%;
+  background-color: #f8f9fa;
+  border-left: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  /* Cho phép list note scroll bên trong */
+}
+
+/* Header cho Panel Ghi chú */
+.pane-notes-header {
+  padding: 15px;
+  background: #14345e;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-close-sm {
+  background: transparent;
+  border: none;
+  color: rgb(255, 255, 255);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Vùng chứa list note có thể cuộn */
+.note-list-scroll {
+  flex: 1;
+  /* Chiếm hết diện tích còn lại của panel */
+  overflow-y: auto;
+  padding: 15px;
+}
