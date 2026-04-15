@@ -21,7 +21,7 @@ const Course = require('./models/Course');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-connectDB(process.env.MONGO_URI || 'mongodb://localhost:27017/engspace');
+connectDB(process.env.MONGODB_URI || 'mongodb://localhost:27017/engspace');
 
 app.use(cors());
 app.use(express.json());
