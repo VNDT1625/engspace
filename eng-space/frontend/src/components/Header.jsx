@@ -47,7 +47,7 @@ export default function Header() {
             <li><NavLink to="/blog" onClick={closeMenu}>Bài Viết</NavLink></li>
             <li><NavLink to="/quiz" onClick={closeMenu}>Quiz</NavLink></li>
             <li><NavLink to="/readinglist" onClick={closeMenu}>Reading List</NavLink></li>
-            <li><NavLink to="/ai-tutor" className="text-primary fw-bold" onClick={closeMenu}><i className="bi bi-robot me-1"></i>AI Tutor</NavLink></li>
+            <li><NavLink to="/ai-tutor" onClick={closeMenu}>AI Tutor</NavLink></li>
 
             {/* Dropdown giữ nguyên <a> vì nó không phải route */}
             <li className={`dropdown ${isDropdownOpen ? 'dropdown-active' : ''}`}>
