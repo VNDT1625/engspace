@@ -829,7 +829,10 @@ h6 {
     line-height: 0;
     margin-right: 10px;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.3s, font-size 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .navmenu {
@@ -926,8 +929,8 @@ h6 {
 
   .mobile-nav-active .mobile-nav-toggle {
     color: #fff;
-    position: absolute;
     font-size: 32px;
+    position: fixed;
     top: 15px;
     right: 15px;
     margin-right: 0;

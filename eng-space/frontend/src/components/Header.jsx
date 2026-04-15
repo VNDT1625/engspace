@@ -25,13 +25,13 @@ export default function Header() {
   };
 
   return (
-    <header id="header" className="header d-flex align-items-center sticky-top">
+    <header id="header" className={`header d-flex align-items-center sticky-top ${isMenuOpen ? 'mobile-nav-active' : ''}`}>
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
         <Link to="/" className="logo d-flex align-items-center me-auto">
           <h1 className="sitename">EngSpace</h1>
         </Link>
 
-        <nav id="navmenu" className={`navmenu ${isMenuOpen ? 'mobile-nav-active' : ''}`}>
+        <nav id="navmenu" className="navmenu">
           <ul>
             <li><NavLink to="/" end onClick={closeMenu}>Trang chủ</NavLink></li>
             <li><NavLink to="/about" onClick={closeMenu}>Về Chúng Tôi</NavLink></li>
