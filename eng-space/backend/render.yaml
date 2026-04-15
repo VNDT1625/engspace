@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: engspace-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        fromDatabase:
+          name: engspace-mongodb
+          property: connectionString
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://your-frontend-url.vercel.app
+
+databases:
+  - name: engspace-mongodb
+    databaseName: engspace
+    region: ohio

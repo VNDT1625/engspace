@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: engspace-ai-service
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port 8000
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: LORA_DIR
+        value: VNDT1625/engspace-qwen-lora
+      - key: HF_TOKEN
+        sync: false
+      - key: TORCH_HOME
+        value: /opt/render/.cache/torch
+      - key: TRANSFORMERS_CACHE
+        value: /opt/render/.cache/huggingface
+    maxConcurrentBuilds: 1
+    healthCheckPath: /health

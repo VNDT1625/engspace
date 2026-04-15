@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: engspace-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: engspace
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - engspace
+
+  # Backend Service
+  backend:
+    build:
+      context: ./eng-space/backend
+      dockerfile: Dockerfile
+    container_name: engspace-backend
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/engspace?authSource=admin
+      JWT_SECRET: dev-secret-key-change-in-production
+      CORS_ORIGIN: http://localhost:5173
+      AI_SERVICE_URL: http://ai-service:8000
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./eng-space/backend:/app
+      - /app/node_modules
+    networks:
+      - engspace
+    command: npm run dev
+
+  # AI Service
+  ai-service:
+    build:
+      context: ./eng-space/ai-service
+      dockerfile: Dockerfile
+    container_name: engspace-ai-service
+    environment:
+      PORT: 8000
+      LORA_DIR: VNDT1625/engspace-qwen-lora
+      HF_TOKEN: ${HF_TOKEN}
+      CORS_ORIGIN: http://localhost:5173
+      BACKEND_URL: http://backend:5000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./eng-space/ai-service:/app
+      - ai_cache:/app/.cache
+    networks:
+      - engspace
+    # Note: Model loading takes time, adjust start period if needed
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  # Frontend (optional - for testing)
+  # frontend:
+  #   build:
+  #     context: ./eng-space/frontend
+  #     dockerfile: Dockerfile.dev
+  #   container_name: engspace-frontend
+  #   environment:
+  #     VITE_API_URL: http://localhost:5000
+  #   ports:
+  #     - "5173:5173"
+  #   volumes:
+  #     - ./eng-space/frontend:/app
+  #     - /app/node_modules
+  #   networks:
+  #     - engspace
+  #   command: npm run dev
+
+volumes:
+  mongodb_data:
+  ai_cache:
+
+networks:
+  engspace:
+    driver: bridge
