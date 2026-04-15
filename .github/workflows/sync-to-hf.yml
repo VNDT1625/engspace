@@ -1,0 +1,47 @@
+name: Sync AI Service to HuggingFace Space
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'eng-space/ai-service/**'
+  workflow_dispatch:
+
+jobs:
+  sync-to-hf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Clone HuggingFace Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git clone https://thuaannn:${HF_TOKEN}@huggingface.co/spaces/thuaannn/engspace-ai hf-space
+
+      - name: Copy files from ai-service to HF Space
+        run: |
+          cp eng-space/ai-service/Dockerfile      hf-space/Dockerfile
+          cp eng-space/ai-service/requirements.txt hf-space/requirements.txt
+          cp eng-space/ai-service/app.py           hf-space/app.py
+          cp eng-space/ai-service/app_mock.py      hf-space/app_mock.py
+
+      - name: Commit and Push to HuggingFace
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          cd hf-space
+          git add -A
+          git diff --staged --quiet && echo "No changes to sync" && exit 0
+          git commit -m "sync: update ai-service from GitHub commit ${{ github.sha }}"
+          git push https://thuaannn:${HF_TOKEN}@huggingface.co/spaces/thuaannn/engspace-ai main
+          echo "Synced successfully to HF Space!"
