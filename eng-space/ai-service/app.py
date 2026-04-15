@@ -21,8 +21,8 @@ app.add_middleware(
 )
 
 base_model_name = "unsloth/qwen2.5-7b-instruct-unsloth-bnb-4bit"
-# Ensure correct path to lora weights relative to ai-service
-lora_dir = os.environ.get("LORA_DIR", "YOUR_USERNAME/engspace-qwen-lora")
+# Ensure correct path to lora weights - two levels up from ai-service
+lora_dir = os.environ.get("LORA_DIR", os.path.join(os.path.dirname(__file__), "..", "..", "engspace-qwen-lora"))
 tokenizer = None
 pipe = None
 model_error = None

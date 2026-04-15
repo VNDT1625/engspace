@@ -21,44 +21,49 @@ const Course = require('./models/Course');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-connectDB(process.env.MONGODB_URI || 'mongodb://localhost:27017/engspace');
+// Start server with async function to ensure DB connects first
+(async () => {
+  try {
+    await connectDB(process.env.MONGO_URI || 'mongodb://localhost:27017/engspace');
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+    app.use(cors());
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from uploads directory
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+    // Serve static files from uploads directory
+    app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// routes
-app.use('/api/auth', authRoutes);
-app.use('/api/courses', courseRoutes);
-app.use('/api/enrollments', enrollmentRoutes);
-app.use('/api/quizzes', quizRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/blog', blogRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/readings', readingRoutes);
-app.use('/api/ai', aiRoutes);
-app.use('/api/extension', extensionRoutes);
+    // routes
+    app.use('/api/auth', authRoutes);
+    app.use('/api/courses', courseRoutes);
+    app.use('/api/enrollments', enrollmentRoutes);
+    app.use('/api/quizzes', quizRoutes);
+    app.use('/api/payments', paymentRoutes);
+    app.use('/api/blog', blogRoutes);
+    app.use('/api/contact', contactRoutes);
+    app.use('/api/admin', adminRoutes);
+    app.use('/api/readings', readingRoutes);
+    app.use('/api/ai', aiRoutes);
+    app.use('/api/extension', extensionRoutes);
 
-app.get("/courses/:slug", async (req, res) => {
-  const course = await Course.findOne({ slug: req.params.slug });
-  res.json(course);
-});
+    app.get("/courses/:slug", async (req, res) => {
+      const course = await Course.findOne({ slug: req.params.slug });
+      res.json(course);
+    });
 
+    app.get('/', (req, res) => res.send({ ok: true, message: 'EngSpace API' }));
 
+    app.use((err, req, res, next) => {
+      console.error(err);
+      res.status(err.status || 500).json({ error: err.message || 'Server error' });
+    });
 
-app.get('/', (req, res) => res.send({ ok: true, message: 'EngSpace API' }));
-
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.status || 500).json({ error: err.message || 'Server error' });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-
-  open(`http://localhost:${PORT}`);
-});
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+      open(`http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+})();

@@ -79,7 +79,7 @@ export default function AITutorPage() {
         setIsTextLoading(true);
 
         try {
-            const res = await axios.post(`${API_URL}/ai/chat`, { messages: newMsgs });
+            const res = await axios.post(`${API_URL}/chat`, { messages: newMsgs });
             const aiReply = res.data?.reply || "AI Tutor did not return a response.";
             setTextMessages([...newMsgs, { role: "assistant", content: aiReply }]);
         } catch (err) {
@@ -101,7 +101,7 @@ export default function AITutorPage() {
         setIsVoiceLoading(true);
 
         try {
-            const res = await axios.post(`${API_URL}/ai/chat`, { messages: newMsgs });
+            const res = await axios.post(`${API_URL}/chat`, { messages: newMsgs });
             const aiReply = res.data?.reply || "AI Tutor did not return a response.";
             setVoiceMessages([...newMsgs, { role: "assistant", content: aiReply }]);
             speakText(aiReply);
@@ -136,7 +136,7 @@ export default function AITutorPage() {
         setIsVideoLoading(true);
         setVideoMsg("AI đang đọc transcript từ video Youtube, xin chờ...");
         try {
-            const res = await axios.post(`${API_URL}/ai/video-chat`, {
+            const res = await axios.post(`${API_URL}/video-chat`, {
                 youtube_url: activeVideoUrl,
                 question: videoQuestion
             });
