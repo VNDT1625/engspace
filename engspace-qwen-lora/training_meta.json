@@ -1,0 +1,31 @@
+{
+  "project": "EngSpace",
+  "version": "v4-final",
+  "base_model": "Qwen/Qwen2.5-7B-Instruct",
+  "lora_rank": 16,
+  "lora_alpha": 32,
+  "max_seq_length": 1024,
+  "epochs": 1,
+  "learning_rate": 0.0002,
+  "batch_size": 1,
+  "format": "chatml",
+  "dataset_files": [
+    "high_quality_essays.csv",
+    "final_cleaned_essays_rated.csv",
+    "writing_rated_results.csv",
+    "SQuAD-v2_0_cleaned.csv",
+    "listening_speaking_combined.csv"
+  ],
+  "skills": {
+    "writing_detailed": 1000,
+    "listening_speaking": 3076,
+    "writing_rated": 1000,
+    "writing_hq": 362
+  },
+  "total_samples": 5438,
+  "train_samples": 5274,
+  "val_samples": 164,
+  "train_loss": 0.2224,
+  "eval_loss": -1,
+  "trained_at": "2026-04-14T07:10:28.816556"
+}

@@ -25,7 +25,6 @@ Thumbs.db
 **/*.log
 
 # Model/artifacts - keep out of GitHub repo
-engspace-qwen-lora/
 **/checkpoint-*/
 **/*.safetensors
 **/optimizer.pt
