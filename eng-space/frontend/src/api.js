@@ -4,8 +4,11 @@ export const AUTH_EVENTS = {
   UNAUTHORIZED: 'auth:unauthorized',
 };
 
+// Get API base URL from environment variable or fallback to localhost
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // backend URL
+  baseURL: `${API_BASE_URL}/api`,
 });
 
 // Helper function to get full image URL
@@ -17,7 +20,7 @@ export const getImageUrl = (imagePath) => {
   }
   // If relative path starting with /uploads, add backend base URL
   if (imagePath.startsWith('/uploads/')) {
-    return `http://localhost:5000${imagePath}`;
+    return `${API_BASE_URL}${imagePath}`;
   }
   // If relative path, assume it's from public folder
   return imagePath;
