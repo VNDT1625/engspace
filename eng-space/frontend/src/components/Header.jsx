@@ -6,13 +6,20 @@ export default function Header() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const toggleDropdown = (e) => {
+    e.preventDefault();
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   const closeMenu = () => {
     setIsMenuOpen(false);
+    setIsDropdownOpen(false);
   };
 
   const goToAccount = (tab) => {
@@ -43,9 +50,9 @@ export default function Header() {
             <li><NavLink to="/ai-tutor" className="text-primary fw-bold" onClick={closeMenu}><i className="bi bi-robot me-1"></i>AI Tutor</NavLink></li>
 
             {/* Dropdown giữ nguyên <a> vì nó không phải route */}
-            <li className="dropdown">
-              <a href="#"><span>Chính sách & Điều khoản</span> <i className="bi bi-chevron-down toggle-dropdown"></i></a>
-              <ul>
+            <li className={`dropdown ${isDropdownOpen ? 'dropdown-active' : ''}`}>
+              <a href="#" onClick={toggleDropdown}><span>Chính sách & Điều khoản</span> <i className={`bi bi-chevron-down toggle-dropdown ${isDropdownOpen ? 'active' : ''}`}></i></a>
+              <ul className={isDropdownOpen ? 'dropdown-active' : ''}>
                 <li><NavLink to="/terms" onClick={closeMenu}>Điều khoản</NavLink></li>
                 <li><NavLink to="/privacy" onClick={closeMenu}>Chính sách</NavLink></li>
               </ul>

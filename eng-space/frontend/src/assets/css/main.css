@@ -829,10 +829,18 @@ h6 {
     line-height: 0;
     margin-right: 10px;
     cursor: pointer;
-    transition: color 0.3s, font-size 0.3s;
+    transition: color 0.3s ease, font-size 0.3s ease, transform 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .mobile-nav-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .navmenu {
@@ -843,84 +851,122 @@ h6 {
   .navmenu ul {
     display: none;
     list-style: none;
-    position: absolute;
-    inset: 60px 20px 20px 20px;
-    padding: 10px 0;
+    position: fixed;
+    inset: 60px 0 0 0;
+    padding: 20px 0;
     margin: 0;
-    border-radius: 6px;
-    background-color: var(--nav-mobile-background-color);
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-    box-shadow: none;
+    border-radius: 0;
+    background: linear-gradient(135deg, rgba(15, 39, 70, 0.95) 0%, rgba(22, 55, 101, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     overflow-y: auto;
-    transition: 0.3s;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 9998;
+    max-height: calc(100vh - 60px);
   }
 
   .navmenu a,
   .navmenu a:focus {
-    color: var(--nav-dropdown-color);
-    padding: 10px 20px;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 15px 25px;
     font-family: var(--nav-font);
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    position: relative;
+  }
+
+  .navmenu a:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: linear-gradient(180deg, #2ca3f8, #4db5f8);
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
   }
 
   .navmenu a i,
   .navmenu a:focus i {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 0;
-    margin-left: 5px;
-    width: 30px;
-    height: 30px;
+    margin-left: 10px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: 0.3s;
-    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    transition: all 0.3s ease;
+    background-color: transparent;
   }
 
   .navmenu a i:hover,
   .navmenu a:focus i:hover {
-    background-color: var(--accent-color);
-    color: var(--contrast-color);
+    background-color: rgba(76, 181, 248, 0.2);
+    color: #4db5f8;
   }
 
   .navmenu a:hover,
   .navmenu .active,
   .navmenu .active:focus {
-    color: var(--nav-dropdown-hover-color);
+    color: #ffffff;
+    background-color: rgba(76, 181, 248, 0.1);
+    padding-left: 30px;
+  }
+
+  .navmenu a:hover:before,
+  .navmenu .active:before,
+  .navmenu .active:focus:before {
+    transform: scaleY(1);
   }
 
   .navmenu .active i,
   .navmenu .active:focus i {
-    background-color: var(--accent-color);
-    color: var(--contrast-color);
-    transform: rotate(180deg);
+    background-color: rgba(76, 181, 248, 0.3);
+    color: #4db5f8;
+    transform: rotate(0deg);
   }
 
   .navmenu .dropdown ul {
     position: static;
     display: none;
     z-index: 99;
-    padding: 10px 0;
-    margin: 10px 20px;
-    background-color: var(--nav-dropdown-background-color);
-    transition: all 0.5s ease-in-out;
+    padding: 10px 0 10px 30px;
+    margin: 5px 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-left: 2px solid rgba(76, 181, 248, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .navmenu .dropdown ul li a {
+    padding: 12px 20px;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .navmenu .dropdown ul li a:hover {
+    color: #ffffff;
+    background-color: rgba(76, 181, 248, 0.15);
   }
 
   .navmenu .dropdown ul ul {
-    background-color: rgba(33, 37, 41, 0.1);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-left: 2px solid rgba(76, 181, 248, 0.2);
   }
 
   .navmenu .dropdown>.dropdown-active {
     display: block;
-    background-color: rgba(33, 37, 41, 0.03);
+    background-color: rgba(0, 0, 0, 0.1);
   }
 
   .mobile-nav-active {
@@ -928,25 +974,55 @@ h6 {
   }
 
   .mobile-nav-active .mobile-nav-toggle {
-    color: #fff;
+    color: #ffffff;
     font-size: 32px;
     position: fixed;
     top: 15px;
     right: 15px;
     margin-right: 0;
     z-index: 9999;
+    background-color: rgba(76, 181, 248, 0.2);
+    transform: rotate(90deg);
+  }
+
+  .mobile-nav-active .mobile-nav-toggle:hover {
+    background-color: rgba(76, 181, 248, 0.3);
   }
 
   .mobile-nav-active .navmenu {
     position: fixed;
     overflow: hidden;
     inset: 0;
-    background: rgba(33, 37, 41, 0.8);
-    transition: 0.3s;
+    background: linear-gradient(135deg, rgba(15, 39, 70, 0.98) 0%, rgba(22, 55, 101, 0.98) 100%);
+    backdrop-filter: blur(15px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideInMenu 0.4s ease;
+  }
+
+  @keyframes slideInMenu {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   .mobile-nav-active .navmenu>ul {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    animation: slideInContent 0.4s ease 0.1s both;
+  }
+
+  @keyframes slideInContent {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
