@@ -1,9 +1,19 @@
+import { useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   const goToAccount = (tab) => {
     navigate(`/account?tab=${tab}`);
@@ -21,30 +31,30 @@ export default function Header() {
           <h1 className="sitename">EngSpace</h1>
         </Link>
 
-        <nav id="navmenu" className="navmenu">
+        <nav id="navmenu" className={`navmenu ${isMenuOpen ? 'mobile-nav-active' : ''}`}>
           <ul>
-            <li><NavLink to="/" end>Trang chủ</NavLink></li>
-            <li><NavLink to="/about">Về Chúng Tôi</NavLink></li>
-            <li><NavLink to="/courses">Khóa Học</NavLink></li>
-            <li><NavLink to="/pricing">Học Phí</NavLink></li>
-            <li><NavLink to="/blog">Bài Viết</NavLink></li>
-            <li><NavLink to="/quiz">Quiz</NavLink></li>
-            <li><NavLink to="/readinglist">Reading List</NavLink></li>
-            <li><NavLink to="/ai-tutor" className="text-primary fw-bold"><i className="bi bi-robot me-1"></i>AI Tutor</NavLink></li>
+            <li><NavLink to="/" end onClick={closeMenu}>Trang chủ</NavLink></li>
+            <li><NavLink to="/about" onClick={closeMenu}>Về Chúng Tôi</NavLink></li>
+            <li><NavLink to="/courses" onClick={closeMenu}>Khóa Học</NavLink></li>
+            <li><NavLink to="/pricing" onClick={closeMenu}>Học Phí</NavLink></li>
+            <li><NavLink to="/blog" onClick={closeMenu}>Bài Viết</NavLink></li>
+            <li><NavLink to="/quiz" onClick={closeMenu}>Quiz</NavLink></li>
+            <li><NavLink to="/readinglist" onClick={closeMenu}>Reading List</NavLink></li>
+            <li><NavLink to="/ai-tutor" className="text-primary fw-bold" onClick={closeMenu}><i className="bi bi-robot me-1"></i>AI Tutor</NavLink></li>
 
             {/* Dropdown giữ nguyên <a> vì nó không phải route */}
             <li className="dropdown">
               <a href="#"><span>Chính sách & Điều khoản</span> <i className="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
-                <li><NavLink to="/terms">Điều khoản</NavLink></li>
-                <li><NavLink to="/privacy">Chính sách</NavLink></li>
+                <li><NavLink to="/terms" onClick={closeMenu}>Điều khoản</NavLink></li>
+                <li><NavLink to="/privacy" onClick={closeMenu}>Chính sách</NavLink></li>
               </ul>
             </li>
 
-            <li><NavLink to="/contact">Liên hệ</NavLink></li>
+            <li><NavLink to="/contact" onClick={closeMenu}>Liên hệ</NavLink></li>
           </ul>
 
-          <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
+          <i className="mobile-nav-toggle d-xl-none bi bi-list" onClick={toggleMobileMenu}></i>
         </nav>
 
         {!user ? (
