@@ -1,5 +1,5 @@
 // EngSpace Chrome Extension Popup
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://engspace-backend.onrender.com/api';
 let selectedText = '';
 let currentTab = null;
 

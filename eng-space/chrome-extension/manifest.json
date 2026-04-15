@@ -4,7 +4,7 @@
   "version": "1.0",
   "description": "Select English text → AI explain + Save to EngSpace for review",
   "permissions": ["contextMenus", "activeTab", "storage", "identity"],
-  "host_permissions": ["http://localhost:5000/*", "https://localhost:5000/*"],
+  "host_permissions": ["https://engspace-backend.onrender.com/*", "https://engspace-ai.onrender.com/*"],
   "background": {
     "service_worker": "background.js"
   },

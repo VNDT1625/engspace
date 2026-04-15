@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
-// Use API_URL from environment variable, with fallback to localhost for development
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-const API_URL = `${API_BASE_URL}/api`;
+// Use AI_URL from environment variable (AI Service), with fallback to localhost for development
+const AI_SERVICE_URL = import.meta.env.VITE_AI_URL || 'http://localhost:8000';
+const API_URL = `${AI_SERVICE_URL}`;
 
 export default function AITutorPage() {
     const { user } = useAuth();
